@@ -57,11 +57,11 @@ public class EnemyController : MonoBehaviour
 
 
     // Update is called once per frame
-    void Update()
+    public void Update()
     {
         if(health <= 0)
         {
-            Destroy(this.gameObject);
+            Die();
         }
         else
         {
@@ -106,6 +106,12 @@ public class EnemyController : MonoBehaviour
 
        
 
+    }
+
+
+    public virtual void Die()
+    {
+        Destroy(this.gameObject);
     }
 
     /*

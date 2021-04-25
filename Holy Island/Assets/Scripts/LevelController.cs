@@ -16,7 +16,7 @@ public class LevelController : MonoBehaviour
     [SerializeField]
     private GameObject bossPrefab;
 
-    private EnemyController Boss = null;
+    private BossController Boss = null;
     private bool instantiate = false;
 
     // Start is called before the first frame update
@@ -37,8 +37,12 @@ public class LevelController : MonoBehaviour
         }
         GameObject bossSpawn = GameObject.FindGameObjectWithTag("bossSpawn");
         GameObject boss = Instantiate(bossPrefab, bossSpawn.transform);
-        Boss = boss.GetComponent<EnemyController>();
+        Boss = boss.GetComponent<BossController>();
         Boss.PlayerController = playerController;
+        Boss.BossRoom = bossSpawn.transform.GetComponentInParent<Room>();
+
+        Debug.Log(GameObject.FindObjectsOfType<BossController>().Length);
+       
     }
 
     private void FixedUpdate()

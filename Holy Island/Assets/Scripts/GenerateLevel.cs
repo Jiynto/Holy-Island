@@ -182,6 +182,7 @@ public class GenerateLevel : MonoBehaviour
             }
             */
 
+
             ConnectionController connection = connections.Dequeue();
             List<GameObject> roomsToCheck = RoomPrefabs.Where(room => connection.ValidConnectionTypes.Contains(room.GetComponent<Room>().Type)).ToList();
             currentConnection = (connection, roomsToCheck);
