@@ -16,22 +16,29 @@ public class GenerateLevel : MonoBehaviour
     private GameObject currentRoomPrefab;
     private Room currentRoom;
     private Queue<ConnectionController> roomConnections = new Queue<ConnectionController>();
-
+    private List<Room> generatedRooms = new List<Room>();
+    private Room startRoom;
 
     // Start is called before the first frame update
     void Start()
     {
         RoomPrefabs = Resources.LoadAll<GameObject>("Rooms/Prefabs");
 
-        GameObject startRoom = Resources.Load("Rooms/Prefabs/Room_Start") as GameObject;
+        GameObject startRoomObject = Resources.Load("Rooms/Prefabs/Room_Start") as GameObject;
 
         //GameObject startRoom = RoomPrefabs[Random.Range(0, RoomPrefabs.Length)];
         //while (startRoom.GetComponent<Room>().Type != RoomType.Room)
            // startRoom = RoomPrefabs[Random.Range(0, RoomPrefabs.Length)];
 
-        startRoom = Instantiate(startRoom);
-        startRoom.GetComponent<Room>().Set();
+        startRoomObject = Instantiate(startRoomObject);
+        startRoom = startRoomObject.GetComponent<Room>();
+        startRoom.Set();
+        Begin();
+    }
 
+
+    private void Begin()
+    {
         ConnectionController[] connectionControllers = startRoom.GetComponentsInChildren<ConnectionController>();
         foreach (ConnectionController controller in connectionControllers)
         {
@@ -40,18 +47,18 @@ public class GenerateLevel : MonoBehaviour
 
         ConnectionController connection = connections.Dequeue();
         List<GameObject> roomsToCheck = new List<GameObject>();
-        foreach(GameObject roomPrefab in RoomPrefabs)
+        foreach (GameObject roomPrefab in RoomPrefabs)
         {
-            if(connection.ValidConnectionTypes.Contains(roomPrefab.GetComponent<Room>().Type))
+            if (connection.ValidConnectionTypes.Contains(roomPrefab.GetComponent<Room>().Type))
             {
                 roomsToCheck.Add(roomPrefab);
             }
         }
-            //RoomPrefabs.Where(room => connection.ValidConnectionTypes.Contains(room.GetComponent<Room>().Type)).ToList();
+        //RoomPrefabs.Where(room => connection.ValidConnectionTypes.Contains(room.GetComponent<Room>().Type)).ToList();
         currentConnection = (connection, roomsToCheck);
-
-        
     }
+
+
 
 
     private void FixedUpdate()
@@ -64,6 +71,7 @@ public class GenerateLevel : MonoBehaviour
         {
             if (currentRoom.IsSet)
             {
+                if(currentRoom != startRoom) generatedRooms.Add(currentRoom);
                 NextConnection();
                 GenerationStep();
                 //finished = true;
@@ -73,10 +81,28 @@ public class GenerateLevel : MonoBehaviour
                 currentRoom.gameObject.transform.MoveToLayer(10);
                 Destroy(currentRoom.gameObject);
                 currentRoom = null;
-                GameObject wall = Resources.Load("Rooms/ComponentPrefabs/wall_pillars") as GameObject;
-                wall = Instantiate(wall);
-                wall.transform.position = currentConnection.Item1.transform.position;
-                wall.transform.Rotate(0, currentConnection.Item1.Rotation + 90, 0);
+
+                Transform wall = currentConnection.Item1.transform.Find("wall_pillars");
+
+                BoxCollider[] colliders = wall.GetComponentsInChildren<BoxCollider>();
+                foreach(BoxCollider collider in colliders)
+                {
+                    collider.enabled = true;
+                }
+
+                MeshRenderer[] renderers = wall.GetComponentsInChildren<MeshRenderer>();
+                foreach(MeshRenderer renderer in renderers)
+                {
+                    renderer.enabled = true;
+                }
+
+
+                //GameObject wall = Resources.Load("Rooms/ComponentPrefabs/wall_pillars") as GameObject;
+                //wall = Instantiate(wall);
+                //wall.transform.position = currentConnection.Item1.transform.position;
+                //wall.transform.Rotate(0, currentConnection.Item1.Rotation + 90, 0);
+
+
                 NextConnection();
                 GenerationStep();
 
@@ -171,6 +197,23 @@ public class GenerateLevel : MonoBehaviour
     }
 
 
+    private void ResetGeneration()
+    {
+        foreach(Room room in generatedRooms)
+        {
+            if(room != null)
+            {
+                room.gameObject.transform.MoveToLayer(10);
+                Destroy(room.gameObject);
+            }
+
+
+        }
+        generatedRooms.Clear();
+        finished = false;
+        Begin();
+    }
+
 
 
 
@@ -228,12 +271,22 @@ public class GenerateLevel : MonoBehaviour
         }
         else
         {
-            NavMeshSurface Surface = Object.FindObjectOfType<NavMeshSurface>();
-            Surface.BuildNavMesh();
-            LevelController levelController = Object.FindObjectOfType<LevelController>();
-            levelController.Initialise();
-            //Remove the generator so its update isnt called unnecessarily.
-            Destroy(this);
+
+            if (generatedRooms.Where(x => x.Type != RoomType.Hallway).ToList().Count < 10 || generatedRooms.Where(x => x.Type == RoomType.BossRoom).ToList().Count == 0)
+            {
+                ResetGeneration();
+            }
+            else
+            {
+
+                NavMeshSurface Surface = Object.FindObjectOfType<NavMeshSurface>();
+                Surface.BuildNavMesh();
+                LevelController levelController = Object.FindObjectOfType<LevelController>();
+                levelController.Initialise();
+                //Remove the generator so its update isnt called unnecessarily.
+                Destroy(this);
+            }
+
         }
 
     }
