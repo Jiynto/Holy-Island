@@ -5,8 +5,7 @@ using UnityEngine;
 public class CameraFollowScript : MonoBehaviour
 {
 
-    [SerializeField]
-    Transform targetTransform;
+    public Transform targetTransform;
 
     [SerializeField]
     float smoothFactor = 0.5f;

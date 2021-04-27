@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class PlayerController : MonoBehaviour
     private Image healthBar;
 
     public UnityEvent DeathFlag;
+
+    public UnityEvent LevelSwitch;
 
     [SerializeField]
     private Animator animator;
@@ -39,10 +42,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField]
     private CharacterController characterController;
 
+    public bool isEnabled = false;
+
+
     // Start is called before the first frame update
     void Start()
     {
         health = Maxhealth;
+        if(PlayerPrefs.HasKey("playerHealth"))
+        {
+            health = PlayerPrefs.GetFloat("playerHealth");
+        }
+
         forward = Camera.main.transform.forward;
         forward.y = 0;
         forward = Vector3.Normalize(forward);
@@ -58,21 +69,24 @@ public class PlayerController : MonoBehaviour
         {
             Destroy(this);
         }
-
-        if(Input.GetAxis("Horizontal") !=0 || Input.GetAxis("Vertical") != 0)
+        if(isEnabled)
         {
-            Move();
-            animator.SetBool("moving", true);
+            if (Input.GetAxis("Horizontal") != 0 || Input.GetAxis("Vertical") != 0)
+            {
+                Move();
+                animator.SetBool("moving", true);
+            }
+            else
+            {
+                animator.SetBool("moving", false);
+            }
+            if (Input.GetMouseButtonDown(0))
+            {
+                animator.SetTrigger("attack");
+                Attack();
+            }
         }
-        else
-        {
-            animator.SetBool("moving", false);
-        }
-        if(Input.GetMouseButtonDown(0))
-        {
-            animator.SetTrigger("attack");
-            Attack();
-        }
+ 
 
         //transform.GetChild(1).transform.rotation = Camera.main.transform.rotation;
         transform.GetComponentInChildren<Canvas>().transform.rotation = Camera.main.transform.rotation;
@@ -122,13 +136,16 @@ public class PlayerController : MonoBehaviour
         healthBar.fillAmount = health / Maxhealth;
     }
 
-    /*
     private void OnTriggerEnter(Collider other)
     {
-        EnemyController enemy = other.GetComponent<EnemyController>();
-        TakeDamage(enemy.Damage, enemy.transform.forward);
+        LevelSwitch.Invoke();
     }
-    */
+
+    private void SaveData()
+    {
+        PlayerPrefs.SetFloat("playerHealth", health);
+    }
+
 
     private void OnDestroy()
     {

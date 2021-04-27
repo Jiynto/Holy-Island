@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class RayCastCamToSphere : MonoBehaviour
 {
-    [SerializeField]
-    private Transform target;
+
+    public Transform target;
 
     [SerializeField]
     private LayerMask layerMask;
