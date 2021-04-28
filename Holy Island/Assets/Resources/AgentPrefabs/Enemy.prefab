@@ -168,6 +168,7 @@ MonoBehaviour:
     m_Bits: 2048
   animator: {fileID: 1351452830333536841}
   attackTime: 2
+  goldValue: 10
 --- !u!65 &4694103975541701488
 BoxCollider:
   m_ObjectHideFlags: 0

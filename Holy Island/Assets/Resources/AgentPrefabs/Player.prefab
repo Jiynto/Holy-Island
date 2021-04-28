@@ -1462,6 +1462,7 @@ GameObject:
   - component: {fileID: 8201275571832596005}
   - component: {fileID: 8201275573179709686}
   - component: {fileID: 8201275573179709687}
+  - component: {fileID: 6270086220346900839}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -1499,20 +1500,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 642e1ea0db95c9b41a2b608ca37c7499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Maxhealth: 300
-  moveSpeed: 4
   healthBar: {fileID: 8201275572416336386}
   DeathFlag:
+    m_PersistentCalls:
+      m_Calls: []
+  LevelSwitch:
     m_PersistentCalls:
       m_Calls: []
   animator: {fileID: 8201275572465790700}
   enemyLayers:
     serializedVersion: 2
     m_Bits: 512
-  attackPoint: {fileID: 8201275571686494662}
-  attackRadius: 0.5
-  damage: 10
   characterController: {fileID: 8201275573179709687}
+  isEnabled: 0
+  playerData: {fileID: 6270086220346900839}
 --- !u!143 &8201275573179709687
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1531,3 +1532,20 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &6270086220346900839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8201275573179709688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4f68277b114a604895eeea24ff30661, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  moveSpeed: 4
+  attackPoint: {fileID: 8201275571686494662}
+  attackRadius: 0.5
+  damage: 10

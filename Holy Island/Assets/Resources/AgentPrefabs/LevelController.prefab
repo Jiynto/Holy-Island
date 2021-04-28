@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4409441637919717073}
   - component: {fileID: 4409441637919717078}
+  - component: {fileID: 1269212958253357955}
   m_Layer: 0
   m_Name: LevelController
-  m_TagString: Untagged
+  m_TagString: LevelController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -45,4 +46,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab: {fileID: 1465549080396772480, guid: 51922d913de431043bb3b238d862bcb7, type: 3}
   bossPrefab: {fileID: 6544064623124266913, guid: 84323125fcaba2c4aa47aea46119246f, type: 3}
-  playerPrefab: {fileID: 4711174743737771870, guid: 8e2ac247205946a48b1daac0626b5b08, type: 3}
+  generator: {fileID: 1269212958253357955}
+--- !u!114 &1269212958253357955
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4409441637919717072}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ea2517913526d4449ad4d708d0d12d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GenerationFinished:
+    m_PersistentCalls:
+      m_Calls: []

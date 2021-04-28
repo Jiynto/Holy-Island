@@ -2,14 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Linq;
 
 public class SwitchLevel : MonoBehaviour
 {
     [SerializeField]
     PlayerController player;
 
+    public bool load = false;
+
     void Start()
     {
+        if(PlayerPrefs.GetInt("load") != 0)
+        {
+            load = true;
+        }
         player.LevelSwitch.AddListener(Switch);
         player.isEnabled = false;
         SceneManager.LoadScene("Level1", LoadSceneMode.Additive);
@@ -40,6 +47,14 @@ public class SwitchLevel : MonoBehaviour
     {
         SceneManager.SetActiveScene(scene);
         player.transform.position = new Vector3(0, player.transform.position.y, 0);
+        if(scene.name == "Level1")
+        {
+            PauseMenu pauseMenu = Object.FindObjectOfType<PauseMenu>();
+            LevelController levelController = Object.FindObjectOfType<LevelController>();
+            pauseMenu.levelController = levelController;
+            levelController.Initialise(load);
+        }
+
         Debug.Log("Level Loaded");
         Debug.Log(scene.name);
         Debug.Log(mode);

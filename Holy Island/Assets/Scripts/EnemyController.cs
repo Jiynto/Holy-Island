@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,7 +46,10 @@ public class EnemyController : MonoBehaviour
 
     private float coolDown;
 
-    public PlayerController PlayerController { get; set; }
+    [SerializeField]
+    private int goldValue;
+
+    public PlayerController playerController { get; set; }
 
     public int Damage { get { return damage; } set { damage = value; } }
 
@@ -69,11 +73,11 @@ public class EnemyController : MonoBehaviour
             {
                 coolDown = coolDown + Time.deltaTime;
             }    
-            float distance = Vector3.Distance(transform.position, PlayerController.transform.position);
+            float distance = Vector3.Distance(transform.position, playerController.transform.position);
             
             if (distance <= maxDist)
             {
-                agent.SetDestination(PlayerController.transform.position);
+                agent.SetDestination(playerController.transform.position);
 
                 if(agent.remainingDistance > agent.stoppingDistance)
                 {
@@ -92,7 +96,7 @@ public class EnemyController : MonoBehaviour
                         Attack();
                         coolDown = 0;
                     }
-                    else if(coolDown >= 1) transform.LookAt(PlayerController.transform);
+                    else if(coolDown >= 1) transform.LookAt(playerController.transform);
 
 
                 }
@@ -111,6 +115,7 @@ public class EnemyController : MonoBehaviour
 
     public virtual void Die()
     {
+        playerController.AddGold(goldValue);
         Destroy(this.gameObject);
     }
 
@@ -141,6 +146,34 @@ public class EnemyController : MonoBehaviour
         health -= damage;
         //transform.position += forward * Time.deltaTime * 2;
         healthBar.fillAmount = health / maxHealth;
+    }
+
+
+    public SaveData Save()
+    {
+        SaveData data = new SaveData();
+        data.health = health;
+        data.position = gameObject.transform.position;
+        data.rotation = gameObject.transform.rotation.eulerAngles;
+
+        return data;
+    }
+
+    public void SetData(SaveData data)
+    {
+        health = data.health;
+        gameObject.transform.position = data.position;
+        gameObject.transform.position = data.rotation;
+    }
+
+
+    [Serializable]
+    public struct SaveData
+    {
+        public float health;
+        public Vector3 position;
+        public Vector3 rotation;
+
     }
 
 

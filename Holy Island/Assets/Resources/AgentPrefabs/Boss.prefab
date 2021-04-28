@@ -25,6 +25,7 @@ MonoBehaviour:
     m_Bits: 2048
   animator: {fileID: 6649228630038446440}
   attackTime: 3
+  goldValue: 30
 --- !u!1001 &5658664105397357345
 PrefabInstance:
   m_ObjectHideFlags: 0

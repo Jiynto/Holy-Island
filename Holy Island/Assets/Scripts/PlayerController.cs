@@ -4,16 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField]
-    private float Maxhealth;
-
-    private float health;
-
-    [SerializeField]
-    float moveSpeed = 4f;
 
     Vector3 forward, right;
 
@@ -31,28 +25,24 @@ public class PlayerController : MonoBehaviour
     private LayerMask enemyLayers;
 
     [SerializeField]
-    private Transform attackPoint;
-
-    [SerializeField]
-    private float attackRadius;
-
-    [SerializeField]
-    private float damage;
-
-    [SerializeField]
     private CharacterController characterController;
 
     public bool isEnabled = false;
 
 
+    public PlayerData playerData;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
-        health = Maxhealth;
+        /*
         if(PlayerPrefs.HasKey("playerHealth"))
         {
-            health = PlayerPrefs.GetFloat("playerHealth");
+            playerData.Health = PlayerPrefs.GetFloat("playerHealth");
         }
+        */
 
         forward = Camera.main.transform.forward;
         forward.y = 0;
@@ -65,9 +55,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         //Attack();
-        if(health <= 0)
+        if(playerData.Health <= 0)
         {
-            Destroy(this);
+            Die();
         }
         if(isEnabled)
         {
@@ -113,27 +103,27 @@ public class PlayerController : MonoBehaviour
         transform.forward = heading;
 
         Vector3 move = forward * Input.GetAxis("Vertical") + right * Input.GetAxis("Horizontal");
-        characterController.Move(moveSpeed * Time.deltaTime * heading);
+        characterController.Move(playerData.MoveSpeed * Time.deltaTime * heading);
 
     }
 
 
     void Attack()
     {
-        Collider[] hits = Physics.OverlapSphere(attackPoint.position, attackRadius, enemyLayers);
+        Collider[] hits = Physics.OverlapSphere(playerData.AttackPoint.position, playerData.AttackRadius, enemyLayers);
 
         foreach(Collider hit in hits)
         {
-            hit.GetComponent<EnemyController>().TakeDamage(damage);
+            hit.GetComponent<EnemyController>().TakeDamage(playerData.Damage);
         }
 
     }    
 
     public void TakeDamage(float damage, Vector3 forward)
     {
-        health -= damage;
+        playerData.Health -= damage;
         transform.position += forward * Time.deltaTime * 2;
-        healthBar.fillAmount = health / Maxhealth;
+        healthBar.fillAmount = playerData.Health / playerData.MaxHealth;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -141,22 +131,36 @@ public class PlayerController : MonoBehaviour
         LevelSwitch.Invoke();
     }
 
+    /*
     private void SaveData()
     {
-        PlayerPrefs.SetFloat("playerHealth", health);
+        PlayerPrefs.SetFloat("playerHealth", playerData.Health);
+    }
+    */
+
+    public void AddGold(int amount)
+    {
+        playerData.Gold += amount;
     }
 
 
-    private void OnDestroy()
+
+
+    private void Die()
     {
         DeathFlag.Invoke();
     }
 
     private void OnDrawGizmosSelected()
     {
-        if (attackPoint == null)
+        if (playerData.AttackPoint == null)
             return;
 
-        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
+        Gizmos.DrawWireSphere(playerData.AttackPoint.position, playerData.AttackRadius);
     }
+
+
+
+
+
 }
