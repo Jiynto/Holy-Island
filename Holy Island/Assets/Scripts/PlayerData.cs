@@ -60,7 +60,7 @@ public class PlayerData : MonoBehaviour
         damage = data.damage;
         gold = data.gold;
         gameObject.transform.position = data.position;
-        gameObject.transform.position = data.rotation;
+        gameObject.transform.rotation = Quaternion.Euler(data.rotation);
     }
 
     public SaveData Save()

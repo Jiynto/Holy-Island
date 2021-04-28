@@ -40,6 +40,7 @@ public class LevelController : MonoBehaviour
         if (load)
         {
             GetSeed();
+            generator.Seed = seed;
             generator.GenerationFinished.AddListener(Load);
             generator.Generate();
 
@@ -47,6 +48,7 @@ public class LevelController : MonoBehaviour
         }
         else
         {
+            seed = generator.Seed;
             generator.GenerationFinished.AddListener(Populate);
             generator.Generate();
         }
@@ -65,7 +67,6 @@ public class LevelController : MonoBehaviour
 
     private void Populate()
     {
-        seed = generator.Seed;
         GameObject[] spawns = GameObject.FindGameObjectsWithTag("spawn");
         foreach (GameObject spawn in spawns)
         {
@@ -170,6 +171,7 @@ public class LevelController : MonoBehaviour
         {
             GameObject newEnemy = Instantiate(enemyPrefab);
             newEnemy.GetComponent<EnemyController>().SetData(enemyData);
+            newEnemy.GetComponent<EnemyController>().playerController = player;
         }
     }
 
@@ -199,6 +201,7 @@ public class LevelController : MonoBehaviour
             BossController.SaveData bossData = JsonUtility.FromJson<BossController.SaveData>(json);
             GameObject newBoss = Instantiate(bossPrefab);
             newBoss.GetComponent<BossController>().SetData(bossData);
+            newBoss.GetComponent<BossController>().playerController = player;
 
         }
         catch (Exception e)

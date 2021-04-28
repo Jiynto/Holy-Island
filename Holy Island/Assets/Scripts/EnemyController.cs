@@ -163,7 +163,7 @@ public class EnemyController : MonoBehaviour
     {
         health = data.health;
         gameObject.transform.position = data.position;
-        gameObject.transform.position = data.rotation;
+        gameObject.transform.rotation = Quaternion.Euler(data.rotation);
     }
 
 

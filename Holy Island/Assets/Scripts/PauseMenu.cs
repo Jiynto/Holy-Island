@@ -52,6 +52,7 @@ public class PauseMenu : MonoBehaviour
     public void SaveAndQuit()
     {
         levelController.SerializeLevel();
+        Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
         Debug.Log("Quit");
     }
