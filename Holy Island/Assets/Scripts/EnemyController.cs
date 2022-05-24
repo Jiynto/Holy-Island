@@ -4,10 +4,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
+using UnityEngine.Events;
+
+[System.Serializable]
+public class MobEvent : UnityEvent<EnemyController>
+{
+
+}
+
 
 public class EnemyController : MonoBehaviour
 {
     //TODO: Create variational behaviours, and enemy types (including bosses)
+
+    public MobEvent DeathFlag;
+
 
     [SerializeField]
     private float maxHealth;
@@ -49,6 +60,13 @@ public class EnemyController : MonoBehaviour
     [SerializeField]
     private int goldValue;
 
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip clip;
+
+
     public PlayerController playerController { get; set; }
 
     public int Damage { get { return damage; } set { damage = value; } }
@@ -58,6 +76,9 @@ public class EnemyController : MonoBehaviour
         coolDown = attackTime;
         health = maxHealth;
     }
+
+
+
 
 
     // Update is called once per frame
@@ -116,6 +137,8 @@ public class EnemyController : MonoBehaviour
     public virtual void Die()
     {
         playerController.AddGold(goldValue);
+        playerController.AddKill();
+        DeathFlag.Invoke(this);
         Destroy(this.gameObject);
     }
 
@@ -146,6 +169,7 @@ public class EnemyController : MonoBehaviour
         health -= damage;
         //transform.position += forward * Time.deltaTime * 2;
         healthBar.fillAmount = health / maxHealth;
+        audioSource.PlayOneShot(clip);
     }
 
 
@@ -162,8 +186,8 @@ public class EnemyController : MonoBehaviour
     public void SetData(SaveData data)
     {
         health = data.health;
-        gameObject.transform.position = data.position;
-        gameObject.transform.rotation = Quaternion.Euler(data.rotation);
+        //gameObject.GetComponent<NavMeshAgent>().nextPosition = data.position;
+        //gameObject.transform.rotation = Quaternion.Euler(data.rotation);
     }
 
 

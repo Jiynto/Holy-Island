@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 
 public class PauseMenu : MonoBehaviour
@@ -11,7 +12,31 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     GameObject pauseMenuUI;
 
-    public LevelController levelController;
+    [SerializeField]
+    private TextMeshProUGUI killsTracker;
+
+    private LevelController levelController;
+
+
+
+
+
+    public void SetLevelController(LevelController controller)
+    {
+        levelController = controller;
+        levelController.KillUpdate += UpdateKillTracker;
+    }
+
+
+
+    private void UpdateKillTracker(int kills)
+    {
+        killsTracker.text = "Kill Tracker: " + kills;
+        if(kills > RemoteStatsManager.Instance.TotalKills)
+        {
+            RemoteStatsManager.Instance.SetKillsScore(kills);
+        }
+    }
 
     private void Update()
     {

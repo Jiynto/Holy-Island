@@ -6,6 +6,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using static UnityEngine.Random;
 
+
+public delegate void UIUpdate(int kills);
+
 public class LevelController : MonoBehaviour
 {
     //TODO: Find a better way of accessing the various enemy types. 
@@ -20,6 +23,8 @@ public class LevelController : MonoBehaviour
     private GameObject bossPrefab;
     [SerializeField]
     GenerateLevel generator;
+
+    public UIUpdate KillUpdate;
 
 
     private State seed;
@@ -73,6 +78,7 @@ public class LevelController : MonoBehaviour
             GameObject newEnemy = Instantiate(enemyPrefab, spawn.transform);
             EnemyController enemyController = newEnemy.GetComponent<EnemyController>();
             enemyController.playerController = player;
+            enemyController.DeathFlag.AddListener(EnemyDeath);
             enemies.Add(enemyController);
         }
 
@@ -80,6 +86,7 @@ public class LevelController : MonoBehaviour
         GameObject boss = Instantiate(bossPrefab, bossSpawn.transform);
         Boss = boss.GetComponent<BossController>();
         Boss.playerController = player;
+        Boss.DeathFlag.AddListener(EnemyDeath);
         Boss.BossRoom = bossSpawn.transform.GetComponentInParent<Room>();
         generator.GenerationFinished.RemoveListener(Populate);
     }
@@ -140,6 +147,7 @@ public class LevelController : MonoBehaviour
         string path = PERSISTENT_PATH + @"/enemiesState.json";
 
         if (!File.Exists(path)) File.Create(path).Dispose();
+        else 
         File.WriteAllText(path, json);
 
     }
@@ -169,7 +177,7 @@ public class LevelController : MonoBehaviour
         if (data == null) return;
         foreach (EnemyController.SaveData enemyData in data)
         {
-            GameObject newEnemy = Instantiate(enemyPrefab);
+            GameObject newEnemy = Instantiate(enemyPrefab, enemyData.position, Quaternion.Euler(enemyData.rotation));
             newEnemy.GetComponent<EnemyController>().SetData(enemyData);
             newEnemy.GetComponent<EnemyController>().playerController = player;
         }
@@ -183,6 +191,7 @@ public class LevelController : MonoBehaviour
             string json = File.ReadAllText(path);
             PlayerData.SaveData playerData = JsonUtility.FromJson<PlayerData.SaveData>(json);
             player.playerData.SetData(playerData);
+            UpdateKillTracker();
         }
         catch (Exception e)
         {
@@ -199,7 +208,7 @@ public class LevelController : MonoBehaviour
         {
             string json = File.ReadAllText(path);
             BossController.SaveData bossData = JsonUtility.FromJson<BossController.SaveData>(json);
-            GameObject newBoss = Instantiate(bossPrefab);
+            GameObject newBoss = Instantiate(bossPrefab, bossData.position, Quaternion.Euler(bossData.rotation));
             newBoss.GetComponent<BossController>().SetData(bossData);
             newBoss.GetComponent<BossController>().playerController = player;
 
@@ -232,10 +241,16 @@ public class LevelController : MonoBehaviour
     #endregion
 
 
+    private void EnemyDeath(EnemyController enemy)
+    {
+        enemies.Remove(enemy);
+        UpdateKillTracker();
+    }
 
-
-
-
+    private void UpdateKillTracker()
+    {
+        KillUpdate(player.playerData.Kills);
+    }
 
 
 

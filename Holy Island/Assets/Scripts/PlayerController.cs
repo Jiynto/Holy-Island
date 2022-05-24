@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour
 
     public PlayerData playerData;
 
-
+    private bool isAttacking = false;
 
     // Start is called before the first frame update
     void Start()
@@ -43,13 +43,20 @@ public class PlayerController : MonoBehaviour
             playerData.Health = PlayerPrefs.GetFloat("playerHealth");
         }
         */
-
         forward = Camera.main.transform.forward;
         forward.y = 0;
         forward = Vector3.Normalize(forward);
 
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
     }
+
+
+    public void AttackEnded()
+    {
+        isAttacking = false;
+    }
+
+
 
     // Update is called once per frame
     void Update()
@@ -72,8 +79,13 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetMouseButtonDown(0))
             {
-                animator.SetTrigger("attack");
-                Attack();
+                if(!isAttacking)
+                {
+                    animator.SetTrigger("attack");
+                    Attack();
+                    isAttacking = true;
+                }
+
             }
         }
  
@@ -141,6 +153,11 @@ public class PlayerController : MonoBehaviour
     public void AddGold(int amount)
     {
         playerData.Gold += amount;
+    }
+
+    public void AddKill()
+    {
+        playerData.Kills++;
     }
 
 

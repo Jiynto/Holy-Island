@@ -329,9 +329,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6691146765991523712, guid: 24e1c1f6b6edab940a782bb2532ae12c, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6691146765991523713, guid: 24e1c1f6b6edab940a782bb2532ae12c, type: 3}
       propertyPath: m_Name
       value: NavMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 6691146765991523713, guid: 24e1c1f6b6edab940a782bb2532ae12c, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6691146765991523727, guid: 24e1c1f6b6edab940a782bb2532ae12c, type: 3}
       propertyPath: m_RootOrder

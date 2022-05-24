@@ -16,6 +16,7 @@ public class SwitchLevel : MonoBehaviour
         if(PlayerPrefs.GetInt("load") != 0)
         {
             load = true;
+            PlayerPrefs.SetInt("load", 0);
         }
         player.LevelSwitch.AddListener(Switch);
         player.isEnabled = false;
@@ -51,7 +52,7 @@ public class SwitchLevel : MonoBehaviour
         {
             PauseMenu pauseMenu = Object.FindObjectOfType<PauseMenu>();
             LevelController levelController = Object.FindObjectOfType<LevelController>();
-            pauseMenu.levelController = levelController;
+            pauseMenu.SetLevelController(levelController);
             levelController.Initialise(load);
         }
 

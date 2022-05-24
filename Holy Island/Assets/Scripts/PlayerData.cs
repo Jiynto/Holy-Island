@@ -39,6 +39,10 @@ public class PlayerData : MonoBehaviour
 
     public int Gold { get { return gold; } set { gold = value; } }
 
+    private int kills = 0;
+
+    public int Kills { get { return kills; } set { kills = value; } } 
+
 
     private void Start()
     {
@@ -59,6 +63,7 @@ public class PlayerData : MonoBehaviour
         attackRadius = data.attackRadius;
         damage = data.damage;
         gold = data.gold;
+        kills = data.kills;
         gameObject.transform.position = data.position;
         gameObject.transform.rotation = Quaternion.Euler(data.rotation);
     }
@@ -72,6 +77,7 @@ public class PlayerData : MonoBehaviour
         data.attackRadius = attackRadius;
         data.damage = damage;
         data.gold = gold;
+        data.kills = kills;
         data.position = gameObject.transform.position;
         data.rotation = gameObject.transform.rotation.eulerAngles;
 
@@ -88,6 +94,7 @@ public class PlayerData : MonoBehaviour
         public float attackRadius;
         public float damage;
         public int gold;
+        public int kills;
         public Vector3 position;
         public Vector3 rotation;
 

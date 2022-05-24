@@ -43,6 +43,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: CameraTarget
       objectReference: {fileID: 0}
+    - target: {fileID: 3796843411957033237, guid: bb46e5e837f309f4cbba86f9158c72c7, type: 3}
+      propertyPath: targetTransform
+      value: 
+      objectReference: {fileID: 861077578422836848}
     - target: {fileID: 3926079372361118496, guid: bb46e5e837f309f4cbba86f9158c72c7, type: 3}
       propertyPath: target
       value: 

@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 631069c2461c25a499860a0ced4a9767, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DeathFlag:
+    m_PersistentCalls:
+      m_Calls: []
   maxHealth: 300
   agent: {fileID: 8745153634505960564}
   minDist: 2
@@ -26,6 +29,8 @@ MonoBehaviour:
   animator: {fileID: 6649228630038446440}
   attackTime: 3
   goldValue: 30
+  audioSource: {fileID: 0}
+  clip: {fileID: 0}
 --- !u!1001 &5658664105397357345
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -168,6 +173,10 @@ PrefabInstance:
     - target: {fileID: 3831657239364724760, guid: 51922d913de431043bb3b238d862bcb7, type: 3}
       propertyPath: m_Color.g
       value: 0.5451856
+      objectReference: {fileID: 0}
+    - target: {fileID: 4024700605322176341, guid: 51922d913de431043bb3b238d862bcb7, type: 3}
+      propertyPath: m_StoppingDistance
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4694103975541701488, guid: 51922d913de431043bb3b238d862bcb7, type: 3}
       propertyPath: m_Enabled
