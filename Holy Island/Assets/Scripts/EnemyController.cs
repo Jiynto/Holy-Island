@@ -44,7 +44,10 @@ public class EnemyController : MonoBehaviour
     private Transform attackPoint;
 
     [SerializeField]
-    private float attackRadius;
+    private float attackWidth;
+
+    [SerializeField]
+    private float attackDepth;
 
     [SerializeField]
     private LayerMask playerLayer;
@@ -164,7 +167,7 @@ public class EnemyController : MonoBehaviour
 
     void Attack()
     {
-        Collider[] hits = Physics.OverlapSphere(attackPoint.position, attackRadius, playerLayer);
+        Collider[] hits = Physics.OverlapBox(attackPoint.position, new Vector3(attackWidth, attackDepth, 1), Quaternion.identity, playerLayer);
 
         foreach (Collider hit in hits)
         {
@@ -210,6 +213,14 @@ public class EnemyController : MonoBehaviour
 
     }
 
+
+    private void OnDrawGizmosSelected()
+    {
+        if (attackPoint == null)
+            return;
+
+        Gizmos.DrawWireCube(attackPoint.position, new Vector3(attackWidth, 1, attackDepth));
+    }
 
 
 }

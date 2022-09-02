@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
 
     void Attack()
     {
-        Collider[] hits = Physics.OverlapBox(playerData.AttackPoint.position, new Vector3(playerData.AttackWidth, playerData.AttackDepth, 1), Quaternion.identity, enemyLayers);
+        Collider[] hits = Physics.OverlapBox(playerData.AttackPoint.position, new Vector3(playerData.AttackWidth, 1, playerData.AttackDepth), Quaternion.identity, enemyLayers);
 
         foreach(Collider hit in hits)
         {
@@ -173,8 +173,7 @@ public class PlayerController : MonoBehaviour
         if (playerData.AttackPoint == null)
             return;
 
-        Gizmos.DrawWireCube(playerData.AttackPoint.position, new Vector3(playerData.AttackWidth, playerData.AttackDepth));
-        Gizmos.DrawWireCube(playerData.AttackPoint.position, new Vector3(playerData.AttackWidth, playerData.AttackDepth, 1));
+        Gizmos.DrawWireCube(playerData.AttackPoint.position, new Vector3(playerData.AttackWidth, 1, playerData.AttackDepth));
     }
 
 
