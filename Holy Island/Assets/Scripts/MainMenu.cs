@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
 
     private void Start()
     {
-        RemoteStatsManager.Instance.GetKillsScore(UpdateUI);
+        //RemoteStatsManager.Instance.GetKillsScore(UpdateUI);
     }
 
     private void UpdateUI(int kills)

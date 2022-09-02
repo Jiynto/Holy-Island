@@ -109,15 +109,24 @@ public class EnemyController : MonoBehaviour
                 else
                 {
                     agent.updateRotation = false;
-                    
-                    if(coolDown >= attackTime)
+
+                    if (coolDown >= attackTime)
                     {
                         animator.SetBool("targetAquired", false);
                         animator.SetTrigger("attack");
                         Attack();
                         coolDown = 0;
                     }
-                    else if(coolDown >= 1) transform.LookAt(playerController.transform);
+                    else if (coolDown >= 1)
+                    {
+                        var lookPos = playerController.transform.position - transform.position;
+                        lookPos.y = 0;
+                        var rotation = Quaternion.LookRotation(lookPos);
+                        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, Time.deltaTime);
+
+                        //transform.LookAt(playerController.transform);
+                    }
+
 
 
                 }
@@ -145,12 +154,13 @@ public class EnemyController : MonoBehaviour
     /*
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject == PlayerController.gameObject)
+        if(collision.gameObject.tag == "Player")
         {
-            PlayerController.TakeDamage(damage, this.transform.forward);
+            this.GetComponent<NavMeshAgent>().enabled = false;
         }
     }
     */
+
 
     void Attack()
     {

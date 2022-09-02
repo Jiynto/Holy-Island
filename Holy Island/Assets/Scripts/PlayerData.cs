@@ -26,9 +26,15 @@ public class PlayerData : MonoBehaviour
     public Transform AttackPoint { get { return attackPoint; } }
 
     [SerializeField]
-    private float attackRadius;
+    private float attackWidth;
 
-    public float AttackRadius { get { return attackRadius; } }
+    public float AttackWidth { get { return attackWidth; } }
+
+
+    [SerializeField]
+    private float attackDepth;
+
+    public float AttackDepth { get { return attackDepth; } }
 
     [SerializeField]
     private float damage;
@@ -60,7 +66,8 @@ public class PlayerData : MonoBehaviour
         maxHealth = data.maxHealth;
         health = data.health;
         moveSpeed = data.moveSpeed;
-        attackRadius = data.attackRadius;
+        attackWidth = data.attackWidth;
+        attackDepth = data.attackDepth;
         damage = data.damage;
         gold = data.gold;
         kills = data.kills;
@@ -74,7 +81,8 @@ public class PlayerData : MonoBehaviour
         data.maxHealth = maxHealth;
         data.health = health;
         data.moveSpeed = moveSpeed;
-        data.attackRadius = attackRadius;
+        data.attackWidth = attackWidth;
+        data.attackDepth = attackDepth;
         data.damage = damage;
         data.gold = gold;
         data.kills = kills;
@@ -91,7 +99,8 @@ public class PlayerData : MonoBehaviour
         public float maxHealth;
         public float health;
         public float moveSpeed;
-        public float attackRadius;
+        public float attackWidth;
+        public float attackDepth;
         public float damage;
         public int gold;
         public int kills;

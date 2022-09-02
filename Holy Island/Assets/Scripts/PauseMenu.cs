@@ -24,11 +24,11 @@ public class PauseMenu : MonoBehaviour
     public void SetLevelController(LevelController controller)
     {
         levelController = controller;
-        levelController.KillUpdate += UpdateKillTracker;
+        //levelController.KillUpdate += UpdateKillTracker;
     }
 
 
-
+    /*
     private void UpdateKillTracker(int kills)
     {
         killsTracker.text = "Kill Tracker: " + kills;
@@ -37,6 +37,7 @@ public class PauseMenu : MonoBehaviour
             RemoteStatsManager.Instance.SetKillsScore(kills);
         }
     }
+    */
 
     private void Update()
     {

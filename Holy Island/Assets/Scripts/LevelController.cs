@@ -244,7 +244,7 @@ public class LevelController : MonoBehaviour
     private void EnemyDeath(EnemyController enemy)
     {
         enemies.Remove(enemy);
-        UpdateKillTracker();
+        //UpdateKillTracker();
     }
 
     private void UpdateKillTracker()
