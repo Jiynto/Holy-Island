@@ -28,10 +28,10 @@ public class RayCastCamToSphere : MonoBehaviour
             {
                 target.localScale = new Vector3(4, 4, 4);
             }
-            //else
-            //{
-            //   target.localScale = new Vector3(0, 0, 0);
-            //}
+            else
+            {
+               target.localScale = new Vector3(0, 0, 0);
+            }
         }
         else
         {

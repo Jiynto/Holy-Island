@@ -11,6 +11,8 @@ public class GenerateLevel : MonoBehaviour
 
     private GameObject[] RoomPrefabs;
 
+    private GameObject[] ItemPrefabs;
+
     private bool finished = false;
 
     private Queue<ConnectionController> connections = new Queue<ConnectionController>();
@@ -22,6 +24,7 @@ public class GenerateLevel : MonoBehaviour
     private Room startRoom;
     public UnityEvent GenerationFinished;
     private bool generating = false;
+    private bool shopSpawned = false;
 
 
     public State Seed { get { return Random.state; }  set { Random.state = value; } } 
@@ -29,7 +32,10 @@ public class GenerateLevel : MonoBehaviour
 
     public void Generate()
     {
+
+
         RoomPrefabs = Resources.LoadAll<GameObject>("Rooms/Prefabs");
+
 
         GameObject startRoomObject = Resources.Load("Rooms/Prefabs/Room_Start") as GameObject;
 
@@ -37,6 +43,7 @@ public class GenerateLevel : MonoBehaviour
         //while (startRoom.GetComponent<Room>().Type != RoomType.Room)
         // startRoom = RoomPrefabs[Random.Range(0, RoomPrefabs.Length)];
 
+        shopSpawned = false;
         startRoomObject = Instantiate(startRoomObject);
         startRoom = startRoomObject.GetComponent<Room>();
         startRoom.Set();
@@ -83,6 +90,11 @@ public class GenerateLevel : MonoBehaviour
                 if (currentRoom.IsSet)
                 {
                     if (currentRoom != startRoom) generatedRooms.Add(currentRoom);
+                    if (currentRoom.Type == RoomType.Shop)
+                    {
+                        shopSpawned = true;
+                    }
+
                     NextConnection();
                     GenerationStep();
                     //finished = true;
@@ -154,6 +166,7 @@ public class GenerateLevel : MonoBehaviour
         {
             currentRoom.Set();
 
+
             // find all the connections of the working room...
             ConnectionController[] connectionControllers = currentRoom.transform.GetComponentsInChildren<ConnectionController>();
             foreach (ConnectionController controller in connectionControllers)
@@ -203,7 +216,15 @@ public class GenerateLevel : MonoBehaviour
 
 
             ConnectionController connection = connections.Dequeue();
-            List<GameObject> roomsToCheck = RoomPrefabs.Where(room => connection.ValidConnectionTypes.Contains(room.GetComponent<Room>().Type)).ToList();
+            List<GameObject> roomsToCheck = new List<GameObject>();
+            if (shopSpawned == true)
+            {
+                roomsToCheck = RoomPrefabs.Where(room => connection.ValidConnectionTypes.Contains(room.GetComponent<Room>().Type) && room.GetComponent<Room>().Type != RoomType.Shop).ToList();
+            }
+            else
+            {
+                roomsToCheck = RoomPrefabs.Where(room => connection.ValidConnectionTypes.Contains(room.GetComponent<Room>().Type)).ToList();
+            }
             currentConnection = (connection, roomsToCheck);
             currentRoomPrefab = null;
             roomConnections.Clear();
@@ -292,7 +313,7 @@ public class GenerateLevel : MonoBehaviour
         else
         {
 
-            if (generatedRooms.Where(x => x.Type != RoomType.Hallway).ToList().Count < 10 || generatedRooms.Where(x => x.Type == RoomType.BossRoom).ToList().Count == 0)
+            if (generatedRooms.Where(x => x.Type != RoomType.Hallway).ToList().Count < 10 || generatedRooms.Where(x => x.Type == RoomType.BossRoom).ToList().Count == 0 || generatedRooms.Where(x => x.Type == RoomType.Shop).ToList().Count == 0)
             {
                 ResetGeneration();
             }

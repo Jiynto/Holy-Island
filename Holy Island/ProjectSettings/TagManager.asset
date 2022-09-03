@@ -10,6 +10,9 @@ TagManager:
   - Connections
   - bossSpawn
   - playerSpawn
+  - shopSpawn
+  - LevelController
+  - shop
   layers:
   - Default
   - TransparentFX
