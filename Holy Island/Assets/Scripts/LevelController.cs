@@ -32,7 +32,7 @@ public class LevelController : MonoBehaviour
     private BossController Boss;
     private PlayerController player;
 
-
+    private GameObject[] ItemPrefabs;
 
 
     public void Initialise(bool load)
@@ -41,6 +41,8 @@ public class LevelController : MonoBehaviour
         enemies = new List<EnemyController>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         player.DeathFlag.AddListener(GameOver);
+
+        ItemPrefabs = Resources.LoadAll<GameObject>("Shop");
 
         if (load)
         {
@@ -89,6 +91,14 @@ public class LevelController : MonoBehaviour
         Boss.DeathFlag.AddListener(EnemyDeath);
         Boss.BossRoom = bossSpawn.transform.GetComponentInParent<Room>();
         generator.GenerationFinished.RemoveListener(Populate);
+
+
+        GameObject[] shopSpawns = GameObject.FindGameObjectsWithTag("shopSpawn");
+        foreach(GameObject spawn in shopSpawns)
+        {
+            GameObject newItem = Instantiate(ItemPrefabs[Range(0, ItemPrefabs.Length)], spawn.transform);
+        }
+
     }
 
 
