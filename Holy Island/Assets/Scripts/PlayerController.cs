@@ -85,7 +85,17 @@ public class PlayerController : MonoBehaviour
                     Attack();
                     isAttacking = true;
                 }
-
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                RaycastHit hit;
+                if(Physics.Linecast(transform.position, transform.position + transform.forward * 4, out hit))
+                {
+                    if(hit.collider.GetComponentInParent<Item>() != null)
+                    {
+                        hit.collider.GetComponentInParent<Item>().Action(playerData, transform);
+                    }
+                }
             }
         }
  

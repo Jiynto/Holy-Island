@@ -4,14 +4,32 @@ using UnityEngine;
 
 public class Item : MonoBehaviour
 {
-    private float power;
+    [SerializeField]
+    private float power = 0;
 
-    private float moveSpeed;
+    [SerializeField]
+    private float moveSpeed = 0;
 
-    private float attackSpeed;
+    [SerializeField]
+    private float attackSpeed = 0;
 
-    private float attackRange;
+    [SerializeField]
+    private float attackRange = 0;
 
 
+    [SerializeField]
+    private float attackWidth = 0;
+
+    public void Action(PlayerData playerData, Transform playerTransform)
+    {
+        playerData.Damage += power;
+        playerData.MoveSpeed += moveSpeed;
+        Debug.Log("Item Picked Up");
+        /*
+        playerData.AttackDepth += attackRange;
+        playerData.AttackWidth += attackWidth;
+        playerData.AttackPoint.transform.localPosition += playerTransform.forward * attackRange;
+        */
+    }
 
 }

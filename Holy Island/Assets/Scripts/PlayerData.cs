@@ -28,13 +28,13 @@ public class PlayerData : MonoBehaviour
     [SerializeField]
     private float attackWidth;
 
-    public float AttackWidth { get { return attackWidth; } }
+    public float AttackWidth { get { return attackWidth; } set { attackWidth = value; } }
 
 
     [SerializeField]
     private float attackDepth;
 
-    public float AttackDepth { get { return attackDepth; } }
+    public float AttackDepth { get { return attackDepth; } set { attackDepth = value; } }
 
     [SerializeField]
     private float damage;
