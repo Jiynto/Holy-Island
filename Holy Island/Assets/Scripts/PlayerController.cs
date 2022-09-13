@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using System;
+using System.Linq;
 
 public class PlayerController : MonoBehaviour
 {
@@ -25,10 +26,14 @@ public class PlayerController : MonoBehaviour
     private LayerMask enemyLayers;
 
     [SerializeField]
+    private LayerMask itemLayer;
+
+    [SerializeField]
     private CharacterController characterController;
 
     public bool isEnabled = false;
 
+    private List<Collider> itemsInContract;
 
     public PlayerData playerData;
 
@@ -37,6 +42,9 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+        itemsInContract = new List<Collider>();
+
         /*
         if(PlayerPrefs.HasKey("playerHealth"))
         {
@@ -88,14 +96,38 @@ public class PlayerController : MonoBehaviour
             }
             if (Input.GetKeyDown(KeyCode.E))
             {
-                RaycastHit hit;
-                if(Physics.Linecast(transform.position, transform.position + transform.forward * 4, out hit))
+                Debug.Log("E pressed");
+
+
+                if(itemsInContract.Count < 0)
+                {
+                    Collider item = itemsInContract.First();
+                    item.GetComponentInParent<Item>().Action(playerData, transform);
+                    Debug.Log("item picked up");
+                }
+
+
+                //RaycastHit hit;
+                /*
+                Collider[] hits = Physics.OverlapBox(transform.position + transform.forward, new Vector3(1, 1, 1), Quaternion.identity, itemLayer);
+
+                foreach(Collider hit in hits)
+                {
+                    if (hit.GetComponentInParent<Item>() != null)
+                    {
+                        hit.GetComponentInParent<Item>().Action(playerData, transform);
+                    }
+                }
+                */
+                /*
+                if (Physics.Linecast(transform.position, transform.position + transform.forward * 4, out hit))
                 {
                     if(hit.collider.GetComponentInParent<Item>() != null)
                     {
                         hit.collider.GetComponentInParent<Item>().Action(playerData, transform);
                     }
                 }
+                */
             }
         }
  
@@ -150,7 +182,25 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        LevelSwitch.Invoke();
+        if (other.tag == "exit")
+        {
+            LevelSwitch.Invoke();
+        }
+        else if (other.tag == "item")
+        {
+            itemsInContract.Add(other);
+            Debug.Log("item added to list");
+        }
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if(other.tag == "item")
+        {
+            itemsInContract.Remove(other);
+            Debug.Log("item removed from list");
+        }
     }
 
     /*
