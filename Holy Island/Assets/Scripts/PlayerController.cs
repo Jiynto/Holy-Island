@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("E pressed");
 
 
-                if(itemsInContract.Count < 0)
+                if(itemsInContract.Count > 0)
                 {
                     Collider item = itemsInContract.First();
                     item.GetComponentInParent<Item>().Action(playerData, transform);
