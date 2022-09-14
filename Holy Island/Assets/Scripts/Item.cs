@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Item : MonoBehaviour
 {
@@ -23,6 +24,14 @@ public class Item : MonoBehaviour
     [SerializeField]
     private float health = 0;
 
+    [SerializeField]
+    private float cost;
+
+    [SerializeField]
+    private TextMeshProUGUI text;
+
+    public float Cost { get { return cost; } }
+
     public void Action(PlayerData playerData, Transform playerTransform)
     {
         playerData.Damage += power;
@@ -35,6 +44,16 @@ public class Item : MonoBehaviour
         playerData.AttackPoint.transform.localPosition = newPosition;
 
         Destroy(this.gameObject);
+    }
+
+    private void Start()
+    {
+        text.text = "" + cost;
+    }
+
+    private void Update()
+    {
+        transform.GetComponentInChildren<Canvas>().transform.rotation = Camera.main.transform.rotation;
     }
 
 }

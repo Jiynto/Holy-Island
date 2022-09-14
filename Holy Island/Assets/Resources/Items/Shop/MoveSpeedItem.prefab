@@ -12,6 +12,10 @@ PrefabInstance:
       value: MoveSpeedItem
       objectReference: {fileID: 0}
     - target: {fileID: 2945458127680923478, guid: 66172094cd6384048b331b17b8a6538d, type: 3}
+      propertyPath: cost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2945458127680923478, guid: 66172094cd6384048b331b17b8a6538d, type: 3}
       propertyPath: moveSpeed
       value: 1
       objectReference: {fileID: 0}

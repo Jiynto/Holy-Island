@@ -101,9 +101,16 @@ public class PlayerController : MonoBehaviour
 
                 if(itemsInContract.Count > 0)
                 {
-                    Collider item = itemsInContract.First();
-                    item.GetComponentInParent<Item>().Action(playerData, transform);
-                    Debug.Log("item picked up");
+                    Collider itemCollider = itemsInContract.First();
+                    Item item = itemCollider.GetComponentInParent<Item>();
+                    if(playerData.Gold >= item.Cost)
+                    {
+                        itemsInContract.Remove(itemCollider);
+                        item.Action(playerData, transform);
+
+                        Debug.Log("item picked up");
+                    }
+
                 }
 
 
