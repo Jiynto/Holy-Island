@@ -30,6 +30,7 @@ public class Item : MonoBehaviour
         playerData.AttackWidth += attackWidth;
         playerData.AttackPoint.transform.localPosition += playerTransform.forward * attackRange;
         */
+        Destroy(this.gameObject);
     }
 
 }
