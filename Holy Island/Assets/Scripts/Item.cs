@@ -28,11 +28,12 @@ public class Item : MonoBehaviour
         playerData.Damage += power;
         playerData.MoveSpeed += moveSpeed;
         Debug.Log("Item Picked Up");
-        /*
         playerData.AttackDepth += attackRange;
         playerData.AttackWidth += attackWidth;
-        playerData.AttackPoint.transform.localPosition += playerTransform.forward * attackRange;
-        */
+        Vector3 attackPosition = playerData.AttackPoint.transform.localPosition;
+        Vector3 newPosition = new Vector3(attackPosition.x, attackPosition.y, attackPosition.z + attackRange);
+        playerData.AttackPoint.transform.localPosition = newPosition;
+
         Destroy(this.gameObject);
     }
 

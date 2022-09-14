@@ -96,7 +96,7 @@ public class LevelController : MonoBehaviour
         GameObject[] shopSpawns = GameObject.FindGameObjectsWithTag("shopSpawn");
         foreach(GameObject spawn in shopSpawns)
         {
-            GameObject newItem = Instantiate(ItemPrefabs[Range(0, ItemPrefabs.Length - 1)], spawn.transform);
+            GameObject newItem = Instantiate(ItemPrefabs[Range(0, ItemPrefabs.Length)], spawn.transform);
         }
 
     }
