@@ -20,6 +20,9 @@ public class Item : MonoBehaviour
     [SerializeField]
     private float attackWidth = 0;
 
+    [SerializeField]
+    private float health = 0;
+
     public void Action(PlayerData playerData, Transform playerTransform)
     {
         playerData.Damage += power;
