@@ -247,9 +247,8 @@ public class GenerateLevel : MonoBehaviour
                 room.gameObject.transform.MoveToLayer(10);
                 Destroy(room.gameObject);
             }
-
-
         }
+        shopSpawned = false;
         generatedRooms.Clear();
         finished = false;
         Begin();
@@ -268,8 +267,10 @@ public class GenerateLevel : MonoBehaviour
             //Or we have exhausted the possible orientations of the current working room.
             if (currentRoomPrefab == null || roomConnections.Count == 0)
             {
+
                 //Select a random room prefab from the valid prefabs list.
                 currentRoomPrefab = currentConnection.Item2[Random.Range(0, currentConnection.Item2.Count)];
+
 
                 //Remove selected prefab to ensure it doesnt get examined twice.
                 currentConnection.Item2.Remove(currentRoomPrefab);
