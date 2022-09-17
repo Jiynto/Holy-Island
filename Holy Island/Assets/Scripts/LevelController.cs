@@ -201,7 +201,7 @@ public class LevelController : MonoBehaviour
             string json = File.ReadAllText(path);
             PlayerData.SaveData playerData = JsonUtility.FromJson<PlayerData.SaveData>(json);
             player.playerData.SetData(playerData);
-            UpdateKillTracker();
+            //UpdateKillTracker();
         }
         catch (Exception e)
         {
@@ -261,6 +261,8 @@ public class LevelController : MonoBehaviour
     {
         KillUpdate(player.playerData.Kills);
     }
+
+
 
 
 

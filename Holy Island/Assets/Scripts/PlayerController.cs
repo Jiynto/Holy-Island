@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour
 
     private bool isAttacking = false;
 
+    public UIUpdate GoldUpdate;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +58,8 @@ public class PlayerController : MonoBehaviour
         forward = Vector3.Normalize(forward);
 
         right = Quaternion.Euler(new Vector3(0, 90, 0)) * forward;
+
+        animator.SetFloat("attackSpeed", playerData.AttackSpeed);
     }
 
 
@@ -107,6 +111,7 @@ public class PlayerController : MonoBehaviour
                     {
                         itemsInContract.Remove(itemCollider);
                         item.Action(playerData, transform);
+                        GoldUpdate(playerData.Gold);
 
                         Debug.Log("item picked up");
                     }
@@ -210,6 +215,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+
+
     /*
     private void SaveData()
     {
@@ -220,6 +227,7 @@ public class PlayerController : MonoBehaviour
     public void AddGold(int amount)
     {
         playerData.Gold += amount;
+        GoldUpdate(playerData.Gold);
     }
 
     public void AddKill()

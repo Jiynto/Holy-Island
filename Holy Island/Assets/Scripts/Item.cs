@@ -25,7 +25,7 @@ public class Item : MonoBehaviour
     private float health = 0;
 
     [SerializeField]
-    private float cost;
+    private int cost;
 
     [SerializeField]
     private TextMeshProUGUI text;
@@ -42,7 +42,8 @@ public class Item : MonoBehaviour
         Vector3 attackPosition = playerData.AttackPoint.transform.localPosition;
         Vector3 newPosition = new Vector3(attackPosition.x, attackPosition.y, attackPosition.z + attackRange);
         playerData.AttackPoint.transform.localPosition = newPosition;
-
+        playerData.AttackSpeed += attackSpeed;
+        playerData.Gold -= cost;
         Destroy(this.gameObject);
     }
 

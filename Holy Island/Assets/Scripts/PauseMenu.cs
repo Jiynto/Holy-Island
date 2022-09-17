@@ -15,17 +15,29 @@ public class PauseMenu : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI killsTracker;
 
+    [SerializeField]
+    private TextMeshProUGUI goldTracker;
+
     private LevelController levelController;
 
-
+    [SerializeField]
+    private PlayerController player;
 
 
 
     public void SetLevelController(LevelController controller)
     {
         levelController = controller;
+        player.GoldUpdate += UpdateGoldTracker;
         //levelController.KillUpdate += UpdateKillTracker;
     }
+
+
+    private void UpdateGoldTracker(int gold)
+    {
+        goldTracker.text = "Gold: " + gold;
+    }
+
 
 
     /*

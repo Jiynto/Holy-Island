@@ -37,6 +37,12 @@ public class PlayerData : MonoBehaviour
     public float AttackDepth { get { return attackDepth; } set { attackDepth = value; } }
 
     [SerializeField]
+    private float attackSpeed;
+
+    public float AttackSpeed { get { return attackSpeed; } set { attackSpeed = value; } }
+
+
+    [SerializeField]
     private float damage;
 
     public float Damage { get { return damage; } set { damage = value; } }
@@ -68,6 +74,7 @@ public class PlayerData : MonoBehaviour
         moveSpeed = data.moveSpeed;
         attackWidth = data.attackWidth;
         attackDepth = data.attackDepth;
+        AttackSpeed = data.attackSpeed;
         damage = data.damage;
         gold = data.gold;
         kills = data.kills;
@@ -83,6 +90,7 @@ public class PlayerData : MonoBehaviour
         data.moveSpeed = moveSpeed;
         data.attackWidth = attackWidth;
         data.attackDepth = attackDepth;
+        data.attackSpeed = attackSpeed;
         data.damage = damage;
         data.gold = gold;
         data.kills = kills;
@@ -101,6 +109,7 @@ public class PlayerData : MonoBehaviour
         public float moveSpeed;
         public float attackWidth;
         public float attackDepth;
+        public float attackSpeed;
         public float damage;
         public int gold;
         public int kills;
