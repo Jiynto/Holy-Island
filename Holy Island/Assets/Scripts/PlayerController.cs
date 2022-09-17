@@ -110,7 +110,7 @@ public class PlayerController : MonoBehaviour
                     if(playerData.Gold >= item.Cost)
                     {
                         itemsInContract.Remove(itemCollider);
-                        item.Action(playerData, transform);
+                        item.Action(this);
                         GoldUpdate(playerData.Gold);
 
                         Debug.Log("item picked up");
@@ -249,6 +249,13 @@ public class PlayerController : MonoBehaviour
             return;
 
         Gizmos.DrawWireCube(playerData.AttackPoint.position, new Vector3(playerData.AttackWidth, 1, playerData.AttackDepth));
+    }
+
+
+
+    public void UpdateAnimator()
+    {
+        animator.SetFloat("attackSpeed", playerData.AttackSpeed);
     }
 
 

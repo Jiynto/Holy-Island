@@ -32,8 +32,9 @@ public class Item : MonoBehaviour
 
     public float Cost { get { return cost; } }
 
-    public void Action(PlayerData playerData, Transform playerTransform)
+    public void Action(PlayerController player)
     {
+        PlayerData playerData = player.playerData;
         playerData.Damage += power;
         playerData.MoveSpeed += moveSpeed;
         Debug.Log("Item Picked Up");
@@ -43,6 +44,7 @@ public class Item : MonoBehaviour
         Vector3 newPosition = new Vector3(attackPosition.x, attackPosition.y, attackPosition.z + attackRange);
         playerData.AttackPoint.transform.localPosition = newPosition;
         playerData.AttackSpeed += attackSpeed;
+        player.UpdateAnimator();
         playerData.Gold -= cost;
         Destroy(this.gameObject);
     }
