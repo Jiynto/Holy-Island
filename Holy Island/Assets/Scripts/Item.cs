@@ -3,48 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Item : MonoBehaviour
+public abstract class Item : MonoBehaviour
 {
-    [SerializeField]
-    private float power = 0;
 
     [SerializeField]
-    private float moveSpeed = 0;
+    protected int cost;
 
     [SerializeField]
-    private float attackSpeed = 0;
+    protected TextMeshProUGUI text;
 
-    [SerializeField]
-    private float attackRange = 0;
-
-
-    [SerializeField]
-    private float attackWidth = 0;
-
-    [SerializeField]
-    private float health = 0;
-
-    [SerializeField]
-    private int cost;
-
-    [SerializeField]
-    private TextMeshProUGUI text;
+    protected PlayerData playerData;
 
     public float Cost { get { return cost; } }
 
-    public void Action(PlayerController player)
+    public virtual void Action(PlayerController player)
     {
-        PlayerData playerData = player.playerData;
-        playerData.Damage += power;
-        playerData.MoveSpeed += moveSpeed;
-        Debug.Log("Item Picked Up");
-        playerData.AttackDepth += attackRange;
-        playerData.AttackWidth += attackWidth;
-        Vector3 attackPosition = playerData.AttackPoint.transform.localPosition;
-        Vector3 newPosition = new Vector3(attackPosition.x, attackPosition.y, attackPosition.z + attackRange);
-        playerData.AttackPoint.transform.localPosition = newPosition;
-        playerData.AttackSpeed += attackSpeed;
-        player.UpdateAnimator();
+        playerData = player.playerData;
+    }
+
+    protected void Sold()
+    {
         playerData.Gold -= cost;
         Destroy(this.gameObject);
     }
